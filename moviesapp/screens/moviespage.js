@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../apiconfig/config';
 import axios from "axios";
 import DisplayItem from '../components/displayItem';
+import SelectList from 'react-native-dropdown-select-list'
 
 
 const MoviesPage = (props) => {
@@ -19,12 +20,15 @@ const MoviesPage = (props) => {
 
   useEffect(() => {
     findMovies();
-  }, [])
+  }, [sortType])
+
+  const data = [{ key: 'upcoming', value: 'upcoming' }, { key: 'now_playing', value: 'now_playing' }, { key: 'top_rated', value: 'top_rated' }, { key: 'popular', value: 'popular' }];
 
 
   return (
     <View>
-      <FlatList 
+      <SelectList setSelected={setSortType} data={data} onSelect={() => setSortType(sortType)} />
+      <FlatList
         data={moviesData}
         renderItem={(data) => <DisplayItem item={data.item} navigation={props.navigation} />}
       />
